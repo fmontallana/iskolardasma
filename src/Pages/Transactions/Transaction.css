@@ -1,0 +1,19 @@
+.transactionsPage {
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px;
+    padding: 10px;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(220, 246, 252, 0.5) 7%,
+      rgba(220, 246, 252, 1) 100%
+    );
+    overflow-y: scroll;
+    overflow: -moz-scrollbars-none;
+    height: 80vh;
+    border: 2px #F1F3F6 solid;
+}
+
+.transactionsPage::-webkit-scrollbar { width: 0 !important }

@@ -1,0 +1,23 @@
+.read {
+    color:#7c7e8b;
+    font-weight: normal;
+}
+
+.unread {
+    font-weight: bold;
+}
+
+.notification {
+  display: grid;
+  grid-template-columns: 10px 1fr 130px;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.notification :last-child {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+

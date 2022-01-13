@@ -1,0 +1,161 @@
+.sendMoney {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 10px;
+}
+
+.sendMoney > h4 {
+  align-self: center;
+  justify-self: center;
+  margin-left: -40px;
+}
+
+.sendMoney .sendMoneyFields {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  grid-column: span 2;
+  margin-top: 20px;
+}
+
+.sendMoney .sendMoneyFields h6 {
+  color: #22cef3;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.sendMoney .sendMoneyFields input {
+  height: 3rem;
+  width: 100%;
+  background: #fff;
+  border: none;
+  border-bottom: 1px gray solid;
+  border-radius: 10px;
+  padding: 0 20px;
+}
+
+.sendMoney .sendMoneyConfirmDetails {
+  display: flex;
+  flex-direction: column;
+  grid-column: span 2;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.sendMoney .sendMoneyConfirmDetails .fields {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.sendMoney .sendMoneyConfirmDetails .fields .currentBal,
+.sendMoney .sendMoneyConfirmDetails .fields .totalBal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+
+.sendMoney .sendMoneyConfirmDetails .fields .currentBal,
+.sendMoney .sendMoneyConfirmDetails .fields .totalBal {
+  background-color: #fff;
+  height: 60px;
+  border-radius: 10px;
+  padding: 0 10px;
+}
+
+.sendMoney .sendMoneyConfirmDetails .fields .totalBal :first-child {
+  grid-column: span 2;
+}
+
+.sendMoney .withdraw {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.sendMoney .withdraw > p:first-of-type {
+  color: #555561;
+  font-size: .8rem;
+  margin-bottom: -1.5rem;
+}
+
+.sendMoney .withdraw > div {
+    /* background-color: #fff; */
+    padding: 20px 10px;
+    border-radius: 10px;
+}
+
+.sendMoney .withdraw .group1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+}
+
+
+.sendMoney .withdraw .group1 > label {
+  grid-column: 1/2;
+}
+
+.sendMoney .withdraw .group1 > input {
+  grid-column: 2/3;
+}
+
+.sendMoney .withdraw .group1 .inputGroup {
+  display: flex;
+  grid-column: 1/3;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+
+.sendMoney .withdraw .group1 label:last-of-type {
+  grid-column: 1/3;
+}
+
+
+.sendMoney .withdraw .group2 {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sendMoney .withdraw .group1 > label,
+.sendMoney .withdraw .group2 > label {
+ color: #22CEF3;
+}
+.sendMoney .withdraw .group1 > input {
+  width: 100%;
+  height: 2rem;
+  border: transparent;
+  border-bottom: 1px gray solid;
+  margin-bottom: 10px;
+  color: #555561;
+}
+.sendMoney .withdraw .group2 > input {
+  width: 100%;
+  height: 2rem;
+  border: transparent;
+  border-bottom: 1px gray solid;
+  margin-bottom: 10px;
+  color: #555561;
+}
+
+.sendMoney .withdraw .withdrawContainer > input {
+  height: 3rem;
+  border-radius: 10px;
+  padding: 10px 20px;
+}

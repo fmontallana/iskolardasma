@@ -1,0 +1,36 @@
+.services {
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(1fr, 4);
+    gap: 10px;
+}
+
+.services h4 {
+    grid-column: span 4;
+    color: #7C7E8B;
+}
+
+.services-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+}
+
+.services-group .icon {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    width: 60px;
+    border: 2px #F1F3F6 solid;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.services-group label {
+    color: #7B7F9E;
+    font-size: .80rem;
+}
