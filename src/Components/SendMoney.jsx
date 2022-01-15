@@ -28,13 +28,13 @@ function SendMoney({ currentBalance, studentInfo }) {
 
     const data = {
       _added_on: Timestamp.now(),
-      sender_account_number: studentInfo[0].account_number,
+      sender_account_number: studentInfo.account_number,
       receiver_account_number: receiver,
       amount: amount,
     };
 
     await addDoc(collection(db, "sendMoney"), data);
-    console.log("send money success " + data);
+    navigate('/send_money/confirm')
   };
 
   const handleAmount = (amount) => {
@@ -48,7 +48,7 @@ function SendMoney({ currentBalance, studentInfo }) {
   return (
     <>
       <div className="sendMoney">
-        <IoChevronBack size={25} onClick={() => navigate("/dashboard/home")} />
+        <IoChevronBack size={25} onClick={() => navigate(-1)} />
         <h4>Send Money</h4>
 
         <div className="sendMoneyFields">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LoginCSS from "./login.module.css";
 import logoBranding from "../../Assets/iskolar_dasma_logo.png";
 import { IoArrowForwardOutline } from "react-icons/io5";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
-function Login() {
+function Login({setIsLoggedIn}) {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,15 +32,18 @@ function Login() {
           "user",
           JSON.stringify({
             isLoggedIn: true,
+            studentID: student.id
           })
         );
-
+        console.log(student.data().email + student.data().password);
         navigate("/dashboard/home");
+        setIsLoggedIn(true)
       } else {
         console.log("invalid account");
       }
     });
   };
+
 
   return (
     <div className={LoginCSS.login}>

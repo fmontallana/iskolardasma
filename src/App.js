@@ -18,7 +18,7 @@ import { collection, getDocs } from "firebase/firestore";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [studentInfo, setStudentInfo] = useState([]);
+  const [studentInfo, setStudentInfo] = useState({});
   const studentsCollectionRef = collection(db, "students");
   useEffect(() => {
     if (sessionStorage.getItem("user") != null) {
@@ -26,22 +26,32 @@ function App() {
     }
   }, []);
 
+
+
   useEffect(() => {
     const getStudents = async () => {
       const data = await getDocs(studentsCollectionRef);
-      setStudentInfo(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      data.docs.forEach((doc) => {
+
+        if (doc.id === JSON.parse(sessionStorage.getItem('user')).studentID) {
+  
+          setStudentInfo(doc.data())
+        }
+
+      })
+
     };
 
     getStudents();
-  },[]);
+  }, [isLoggedIn]);
 
   return (
     <Router>
       <div className="wrapper">
         <Routes>
-          <Route path={sessionStorage && "dashboard"} element={<Dashboard />}>
+          <Route path="dashboard" element={<Dashboard studentInfo={studentInfo} />}>
             <Route
-              path={sessionStorage && "home"}
+              path="home"
               element={
                 <>
                   <Header />
@@ -51,26 +61,26 @@ function App() {
                 </>
               }
             />
-            <Route path={sessionStorage && "transaction"} element={<TransactionsPage />} />
-            <Route path={sessionStorage && "notification"} element={<Notifications />} />
+            <Route path="transaction" element={<TransactionsPage />} />
+            <Route path="notification" element={<Notifications />} />
             <Route
-              path={sessionStorage && "profile"}
+              path="profile"
               element={<Profile studentInfo={studentInfo} />}
             />
           </Route>
-          <Route path={sessionStorage.length>0 ? "send_money":null} element={<SendMoney studentInfo={studentInfo} currentBalance={5000} />} />
-          <Route path={sessionStorage.length>0 ? "send_money/confirm":null} element={<SendMoneyConfirm />} />
-          <Route path={sessionStorage.length>0 ? "withdraw":null} element={<Withdraw />} />
+          <Route path="send_money" element={<SendMoney studentInfo={studentInfo} currentBalance={5000} />} />
+          <Route path="send_money/confirm" element={<SendMoneyConfirm />} />
+          <Route path="withdraw" element={<Withdraw />} />
           <Route
-            path={sessionStorage.length>0 ? "withdraw/confirm":null}
+            path="withdraw/confirm"
             element={<TransactionConfirm transaction={"Request"} />}
           />
           <Route
-            path={sessionStorage.length>0 ? "send_money/success":null}
+            path="send_money/success"
             element={<TransactionConfirm transaction={"Send Money"} />}
           />
 
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="*" element={<h1>Error! Page Not Found.</h1>} />
         </Routes>
       </div>
