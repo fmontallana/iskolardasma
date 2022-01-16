@@ -3,10 +3,7 @@ import "./Balance.css";
 import { MdCheckCircle } from "react-icons/md";
 
 function Balance({studentInfo}) {
-  //   if (studentInfo[0] == null) {
-  //     window.location.href = "/";
-  //   }
-  console.log(studentInfo)
+  
   return (
     <div className="balance-wrapper">
       <div className="balance">

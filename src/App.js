@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./App.css";
 import { Dashboard, Login } from "./Pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -14,42 +14,54 @@ import SendMoneyConfirm from "./Components/SendMoneyConfirm";
 import Withdraw from "./Components/Withdraw";
 import TransactionConfirm from "./Components/TransactionConfirm";
 import { db } from "./firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { TransactionContextProvider, TransactionContext } from "./Context/TransactionContext";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [studentInfo, setStudentInfo] = useState({});
   const studentsCollectionRef = collection(db, "students");
-  useEffect(() => {
-    if (sessionStorage.getItem("user") != null) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+  const [transactionsData, setTransactionsData] = useContext(TransactionContext)
+
+  //check if logged in
+  // useEffect(() => {
+  //   if (sessionStorage.getItem("user") != null) {
+  //     setIsLoggedIn(true);
+  //   }
+  // }, []);
+
+  //Get user details
+  const getStudents = async () => {
+    const data = await getDocs(studentsCollectionRef);
+    data.docs.forEach((doc) => {
+      if (doc.id === JSON.parse(sessionStorage.getItem('user')).studentID) {
+        setStudentInfo(doc.data())
+      }
+    })
+  };
 
 
-
-  useEffect(() => {
-    const getStudents = async () => {
-      const data = await getDocs(studentsCollectionRef);
-      data.docs.forEach((doc) => {
-
-        if (doc.id === JSON.parse(sessionStorage.getItem('user')).studentID) {
   
-          setStudentInfo(doc.data())
-        }
+  // const getTransactions = async (studentInfo) => {
+  //   const transactionsCollectionRef = collection(db, "transactions")
+  //   const q = query(transactionsCollectionRef, where("sender", "==", studentInfo), orderBy("_added_on", "desc"));
+  //   const data = await getDocs(q)
+  //   setTransactionsData((prev) => {
+  //     return { ...prev, ...data.docs }
+  //   })
+  //   setTransactionsData(data.docs)
+  // }
 
-      })
-
-    };
-
+  useEffect(() => {
     getStudents();
-  }, [isLoggedIn]);
+    // getTransactions();
+  }, [isLoggedIn])
 
   return (
     <Router>
       <div className="wrapper">
         <Routes>
-          <Route path="dashboard" element={<Dashboard studentInfo={studentInfo} />}>
+          <Route path="dashboard" element={<Dashboard isLoggedIn={isLoggedIn} studentInfo={studentInfo} />}>
             <Route
               path="home"
               element={
@@ -57,11 +69,14 @@ function App() {
                   <Header />
                   <Balance studentInfo={studentInfo} />
                   <Services />
-                  <Transactions />
+                    <Transactions isLoggedIn={isLoggedIn} account_number={studentInfo.account_number} />
                 </>
               }
             />
-            <Route path="transaction" element={<TransactionsPage />} />
+            
+            <Route path="transaction" element={
+             <TransactionsPage studentInfo={studentInfo}/> 
+            } />
             <Route path="notification" element={<Notifications />} />
             <Route
               path="profile"
@@ -80,7 +95,7 @@ function App() {
             element={<TransactionConfirm transaction={"Send Money"} />}
           />
 
-          <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/" element={<Login  setTransactionsData={setTransactionsData} setTransactionsData={setTransactionsData} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="*" element={<h1>Error! Page Not Found.</h1>} />
         </Routes>
       </div>

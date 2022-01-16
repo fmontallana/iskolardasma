@@ -28,12 +28,14 @@ function SendMoney({ currentBalance, studentInfo }) {
 
     const data = {
       _added_on: Timestamp.now(),
-      sender_account_number: studentInfo.account_number,
-      receiver_account_number: receiver,
+      type: 'transfer',
       amount: amount,
+      sender: studentInfo.account_number,
+      receiver: receiver,
+      title: 'Send Money to',
     };
 
-    await addDoc(collection(db, "sendMoney"), data);
+    await addDoc(collection(db, "transactions"), data);
     navigate('/send_money/confirm')
   };
 
@@ -48,7 +50,7 @@ function SendMoney({ currentBalance, studentInfo }) {
   return (
     <>
       <div className="sendMoney">
-        <IoChevronBack size={25} onClick={() => navigate(-1)} />
+        <IoChevronBack size={25} onClick={() => navigate('/dashboard/home')} />
         <h4>Send Money</h4>
 
         <div className="sendMoneyFields">

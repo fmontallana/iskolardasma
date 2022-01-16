@@ -1,35 +1,36 @@
-import React from 'react'
+import React, { useContext} from "react";
 import Header from '../../Components/Header'
 import Transaction from '../../Components/Transaction'
 import './Transaction.css'
+import {TransactionContext} from '../../Context/TransactionContext'
 
 function TransactionsPage() {
+
+  const [transactionsData] = useContext(TransactionContext)
+
     return (
         <>
             <Header />
             <h4 style={{ textAlign: "center", marginTop: "10px" }}>Transaction History</h4>
             <div className='transactionsPage'>
-                <Transaction color="red" typeDescription="Withdraw Money from" date="10 January, 2022" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="05 January, 2022" typeLabel="Request Withdrawal" amount="10,000" />
-                <Transaction color="green" typeDescription="Received Money from" date="01 December, 2021" typeLabel="Scholarship Funds" amount="6,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="15 October, 2021" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="08 October, 2021" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="10 January, 2022" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="05 January, 2022" typeLabel="Request Withdrawal" amount="10,000" />
-                <Transaction color="green" typeDescription="Received Money from" date="01 December, 2021" typeLabel="Scholarship Funds" amount="6,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="15 October, 2021" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="08 October, 2021" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="10 January, 2022" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="05 January, 2022" typeLabel="Request Withdrawal" amount="10,000" />
-                <Transaction color="green" typeDescription="Received Money from" date="01 December, 2021" typeLabel="Scholarship Funds" amount="6,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="15 October, 2021" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="08 October, 2021" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="10 January, 2022" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="05 January, 2022" typeLabel="Request Withdrawal" amount="10,000" />
-                <Transaction color="green" typeDescription="Received Money from" date="01 December, 2021" typeLabel="Scholarship Funds" amount="6,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="15 October, 2021" typeLabel="Request Withdrawal" amount="5,000" />
-                <Transaction color="red" typeDescription="Withdraw Money from" date="08 October, 2021" typeLabel="Request Withdrawal" amount="5,000" />
+            {
+            transactionsData.map((data, index)=>{
+              console.log()
+              const date = new Date(data.data()._added_on.toDate().toString())
+              const newDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
+              return (
+                <Transaction
+                  key={index}
+                  color={data.data().type==="receive"? "green":'red'}
+                  typeDescription={data.data().title}
+                  date={newDate}
+                  typeLabel={data.data().receiver}
+                  amount={data.data().type==="receive"? data.data().amount:`-${data.data().amount}` }
 
+                />
+              )
+            })
+          }
             </div>
         </>
 

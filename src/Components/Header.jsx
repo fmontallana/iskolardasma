@@ -1,7 +1,7 @@
 import React from "react";
 import "./Header.css";
 import logoBranding from "../Assets/iskolar_dasma_logo.png";
-import { MdOutlineSettings } from "react-icons/md";
+import { IoMdExit } from "react-icons/io";
 
 function Header() {
   const logout = () => {
@@ -13,7 +13,7 @@ function Header() {
     <div className="header">
       <img src={logoBranding} alt="" />
       <h2>Iskolar Dasma</h2>
-      <MdOutlineSettings size={35} onClick={() => logout()} />
+      <IoMdExit size={35} onClick={() => logout()} />
     </div>
   );
 }

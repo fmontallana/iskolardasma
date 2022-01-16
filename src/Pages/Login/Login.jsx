@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import LoginCSS from "./login.module.css";
 import logoBranding from "../../Assets/iskolar_dasma_logo.png";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { MdOutlineEmail, MdLockOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, where, query, orderBy } from "firebase/firestore";
 import { db } from "../../firebase-config";
+import { TransactionContext } from '../../Context/TransactionContext'
 
-function Login({setIsLoggedIn}) {
+
+function Login({ setIsLoggedIn }) {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [transactionsData, setTransactionsData] = useContext(TransactionContext)
+
   const studentCollectionRef = collection(db, "students");
 
   const handleEmail = (email) => {
@@ -32,17 +36,52 @@ function Login({setIsLoggedIn}) {
           "user",
           JSON.stringify({
             isLoggedIn: true,
-            studentID: student.id
+            studentID: student.id,
+            account_number: student.data().account_number
           })
         );
-        console.log(student.data().email + student.data().password);
-        navigate("/dashboard/home");
         setIsLoggedIn(true)
-      } else {
-        console.log("invalid account");
       }
+      console.log(student.data())
+      getTransactions(student.data().account_number)
+
+        navigate('/dashboard/home')
     });
   };
+
+  const getTransactions = async (account_number) => {
+    // let acct_number = JSON.parse(sessionStorage.getItem('user')).account_number
+    const transactionsCollectionRef = collection(db, "transactions")
+    const q = query(transactionsCollectionRef, where("sender", "==", account_number), orderBy("_added_on", "desc"));
+    const data = await getDocs(q)
+    setTransactionsData(data.docs)
+    // setTransactionsData((prev) => {
+    //   return { ...prev, ...data.docs }
+    // })
+    console.log(data.docs)
+    console.log(transactionsData)
+  }
+  // const getTransactions = async (account_number) => {
+  //   // const account_number = JSON.parse(sessionStorage.getItem('user')).account_number
+  //   const transactionsCollectionRef = collection(db, "transactions")
+  //   // const sender = query(transactionsCollectionRef, where("sender","==",account_number), orderBy("_added_on","desc"));
+  //   const receiver = query(transactionsCollectionRef, where("receiver","==",account_number), orderBy("_added_on","desc"));
+
+  //   // const sdata = await (await getDocs(sender)).docs
+  //   const rdata = await (await getDocs(receiver)).docs
+
+  //   // setTransactionsData(prev => {
+  //   //   return {
+  //   //     ...prev, sdata
+  //   //   }
+  //   // })
+
+  //   setTransactionsData(prev => {
+  //     return {
+  //       ...prev, rdata
+  //     }
+  //   })
+  // }
 
 
   return (

@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { TransactionContextProvider } from './Context/TransactionContext';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    <TransactionContextProvider>
     <App />
+    </TransactionContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
