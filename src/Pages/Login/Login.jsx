@@ -27,6 +27,8 @@ function Login({ setIsLoggedIn }) {
 
   const login = async () => {
     const data = await getDocs(studentCollectionRef);
+    console.log(data.docs)
+
     data.docs.forEach((student) => {
       if (
         email === student.data().email &&
@@ -41,48 +43,32 @@ function Login({ setIsLoggedIn }) {
           })
         );
         setIsLoggedIn(true)
-      }
-      console.log(student.data())
-      getTransactions(student.data().account_number)
-
+        console.log(student.data())
+        getTransactions()
         navigate('/dashboard/home')
+      }
+
     });
   };
 
-  const getTransactions = async (account_number) => {
-    // let acct_number = JSON.parse(sessionStorage.getItem('user')).account_number
+  const getTransactions = async () => {
+    let acct_number = JSON.parse(sessionStorage.getItem('user')).account_number
     const transactionsCollectionRef = collection(db, "transactions")
-    const q = query(transactionsCollectionRef, where("sender", "==", account_number), orderBy("_added_on", "desc"));
-    const data = await getDocs(q)
+    const receiver = where("receiver", "==", acct_number)
+    const sender = where("sender","==",acct_number)
+    const orderedBy = orderBy("_added_on","desc");
+    const qry = query(transactionsCollectionRef,sender,orderedBy )
+    const data = await getDocs(qry)
+    // setTransactionsData(data.docs)
     setTransactionsData(data.docs)
-    // setTransactionsData((prev) => {
-    //   return { ...prev, ...data.docs }
-    // })
     console.log(data.docs)
     console.log(transactionsData)
   }
-  // const getTransactions = async (account_number) => {
-  //   // const account_number = JSON.parse(sessionStorage.getItem('user')).account_number
-  //   const transactionsCollectionRef = collection(db, "transactions")
-  //   // const sender = query(transactionsCollectionRef, where("sender","==",account_number), orderBy("_added_on","desc"));
-  //   const receiver = query(transactionsCollectionRef, where("receiver","==",account_number), orderBy("_added_on","desc"));
 
-  //   // const sdata = await (await getDocs(sender)).docs
-  //   const rdata = await (await getDocs(receiver)).docs
-
-  //   // setTransactionsData(prev => {
-  //   //   return {
-  //   //     ...prev, sdata
-  //   //   }
-  //   // })
-
-  //   setTransactionsData(prev => {
-  //     return {
-  //       ...prev, rdata
-  //     }
-  //   })
-  // }
-
+  useEffect(()=>{
+    login()
+    getTransactions()
+  },[])
 
   return (
     <div className={LoginCSS.login}>
@@ -110,7 +96,8 @@ function Login({ setIsLoggedIn }) {
         />
         <MdLockOutline size={22} style={{ marginLeft: "-35px" }} />
       </div>
-      <button type="submit" onClick={() => login()}>
+      
+      <button type="submit" onClick={() => login()  }>
         Login <IoArrowForwardOutline size={20} style={{ marginLeft: "5px" }} />{" "}
       </button>
     </div>

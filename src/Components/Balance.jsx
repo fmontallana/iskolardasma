@@ -9,7 +9,7 @@ function Balance({studentInfo}) {
       <div className="balance">
         <h4>{studentInfo.name}</h4>
         <div className="current-balance">
-          <h2>5,000</h2>
+          <h2>{studentInfo.balance}</h2>
           <p>Current Balance</p>
         </div>
         <div className="status">

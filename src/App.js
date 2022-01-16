@@ -16,6 +16,7 @@ import TransactionConfirm from "./Components/TransactionConfirm";
 import { db } from "./firebase-config";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { TransactionContextProvider, TransactionContext } from "./Context/TransactionContext";
+import { GetTransactionData } from "./firebase-snapshots";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -54,7 +55,8 @@ function App() {
 
   useEffect(() => {
     getStudents();
-    // getTransactions();
+  
+
   }, [isLoggedIn])
 
   return (

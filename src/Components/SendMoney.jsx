@@ -9,7 +9,7 @@ import { db } from "../firebase-config";
 function SendMoney({ currentBalance, studentInfo }) {
   let navigate = useNavigate();
   const [amount, setAmount] = useState(0);
-  const [receiver, setReceiver] = useState("");
+  const [receiver, setReceiver] = useState(0);
 
   const sendMoney = async () => {
     // const data = {
@@ -57,20 +57,21 @@ function SendMoney({ currentBalance, studentInfo }) {
           <h6>Send to *</h6>
           <input
             required
-            type="text"
+            type="number"
             placeholder="Enter Account Number: Ex. 2018-1234"
             onChange={(e) => handleReceiver(e.target.value)}
           />
           <h6>Amount *</h6>
           <input
             required
-            type="text"
+            type="number"
             placeholder="Enter Amount"
             onChange={(e) => handleAmount(e.target.value)}
           />
-          {amount === "" && receiver === "" ? (
+          {amount === 0 || receiver === 0 ? (
             ""
           ) : (
+
             <BtnGradient
               isDisabled={(amount == "") & (receiver == "") ? true : false}
               text={"Next"}
