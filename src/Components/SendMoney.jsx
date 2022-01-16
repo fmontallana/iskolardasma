@@ -57,7 +57,7 @@ function SendMoney({ currentBalance, studentInfo }) {
           <h6>Send to *</h6>
           <input
             required
-            type="number"
+            type="text"
             placeholder="Enter Account Number: Ex. 2018-1234"
             onChange={(e) => handleReceiver(e.target.value)}
           />
@@ -68,7 +68,7 @@ function SendMoney({ currentBalance, studentInfo }) {
             placeholder="Enter Amount"
             onChange={(e) => handleAmount(e.target.value)}
           />
-          {amount === 0 || receiver === 0 ? (
+          {amount === 0 || receiver === "" ? (
             ""
           ) : (
 
